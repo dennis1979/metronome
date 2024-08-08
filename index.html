@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metronome</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="metronome">
+        <h1>Metronome</h1>
+        <div class="tempo-display" id="tempo-display">80 BPM</div>
+        <input type="range" id="tempo-slider" min="40" max="240" value="120">
+        <button id="start-stop-button">Start</button>
+        <div class="visual-indicators" id="visual-indicators"></div>
+        <input type="range" id="subdivisions-slider" min="1" max="10" value="1">
+        <div class="measure-line" id="measure-line"></div>
+        <audio id="tick-sound" src="tick.m4a"></audio>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
