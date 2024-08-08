@@ -11,6 +11,15 @@ const visualIndicatorsContainer = document.getElementById('visual-indicators');
 const subdivisionsSlider = document.getElementById('subdivisions-slider');
 const measureLine = document.getElementById('measure-line');
 const tickSound = document.getElementById('tick-sound');
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let tickBuffer;
+
+fetch('https://raw.githubusercontent.com/dennis1979/metronome/main/click.mp3')
+    .then(response => response.arrayBuffer())
+    .then(data => audioContext.decodeAudioData(data))
+    .then(buffer => {
+        tickBuffer = buffer;
+    });
 
 tempoSlider.addEventListener('input', (e) => {
     tempo = e.target.value;
@@ -60,9 +69,10 @@ function playClick() {
             indicator.classList.remove('active');
         }
     });
-    tickSound.currentTime = 0;
-    tickSound.play();
-
+    //tickSound.currentTime = 0;
+    //tickSound.play();
+    playSound(tickBuffer);
+    
     // Flash the measure line on every beat
     if (beatCount === 0) {
         measureLine.style.backgroundColor = '#00FF00'; // Bright green for flash
@@ -73,6 +83,13 @@ function playClick() {
     
 
     beatCount = (beatCount + 1) % subdivisionsPerMeasure;
+}
+
+function playSound(buffer) {
+    const source = audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContext.destination);
+    source.start(0);
 }
 
 function updateVisualIndicators() {
